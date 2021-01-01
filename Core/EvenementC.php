@@ -4,7 +4,7 @@ class EvenementC {
 
 
 	function ajouterEvenement($evenement){
-		$sql="insert into evenement (name,date,nb_participants,image,description,delai,nb_places) values (:name,:date, 0,:image,:description,'true',:nb_places)";
+		$sql="insert into evenement (name,date,nb_participants,image,description,delai,nb_places,nb_like,nb_dislike) values (:name,:date, 0,:image,:description,'true',:nb_places,0,0)";
 		$db = config::getConnexion();
 		try{
         $req=$db->prepare($sql);
@@ -35,8 +35,8 @@ class EvenementC {
             die('Erreur: '.$e->getMessage());
         }	
     }	
-    function afficherEvenements1(){
-		$sql="SElECT * From evenement where delai= 'true'";
+    function RechercherEvenement($name){
+		$sql='SELECT * FROM evenement WHERE name LIKE "%'.$name.'%" ';
 		$db = config::getConnexion();
 		try{
 		$liste=$db->query($sql);
@@ -46,6 +46,29 @@ class EvenementC {
             die('Erreur: '.$e->getMessage());
         }	
     }	
+    function afficherEvenements1($premier, $parpage){
+		$sql="SElECT * From evenement where delai= 'true' LIMIT $premier, $parpage;";
+		$db = config::getConnexion();
+		try{
+		$liste=$db->query($sql);
+		return $liste;
+		}
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }	
+    }	
+    function NbEvents(){
+        $sql="SELECT * from evenement where delai= 'true'  ";
+		$db = config::getConnexion();
+		try{
+        $liste=$db->query($sql);
+        $num_of_rows = $liste->rowCount() ;
+        return $num_of_rows;
+    }
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }
+    }
     function supprimerEvenement($id){
 		$sql="DELETE FROM evenement where id_evenement= :id_evenement";
 		$db = config::getConnexion();
@@ -119,6 +142,91 @@ try{
         }
 	
     }
+    function modifierEvenementNblike($evenement,$id){
+		$sql="UPDATE evenement SET  nb_like=:nb_like WHERE id_evenement=$id";
+		
+		$db = config::getConnexion();
+try{		
+        $req=$db->prepare($sql);
+    $nb_like=$evenement->getnb_like()+1;
+    
+		
+        $req->bindValue(':nb_like',$nb_like,PDO::PARAM_INT);
+
+
+            $s=$req->execute();
+			
+        }
+        catch (Exception $e){
+            echo " Erreur ! ".$e->getMessage();
+            echo " Les datas : " ;
+        }
+	
+    }
+    function modifierEvenementNblike1($evenement,$id){
+		$sql="UPDATE evenement SET  nb_like=:nb_like WHERE id_evenement=$id";
+		
+		$db = config::getConnexion();
+try{		
+        $req=$db->prepare($sql);
+    $nb_like=$evenement->getnb_like()-1;
+    
+		
+        $req->bindValue(':nb_like',$nb_like,PDO::PARAM_INT);
+
+
+            $s=$req->execute();
+			
+        }
+        catch (Exception $e){
+            echo " Erreur ! ".$e->getMessage();
+            echo " Les datas : " ;
+        }
+	
+    }
+    function modifierEvenementNbdislike($evenement,$id){
+		$sql="UPDATE evenement SET  nb_dislike=:nb_dislike WHERE id_evenement=$id";
+		
+		$db = config::getConnexion();
+try{		
+        $req=$db->prepare($sql);
+    $nb_dislike=$evenement->getnb_dislike()+1;
+    
+		
+        $req->bindValue(':nb_dislike',$nb_dislike,PDO::PARAM_INT);
+
+
+            $s=$req->execute();
+			
+        }
+        catch (Exception $e){
+            echo " Erreur ! ".$e->getMessage();
+            echo " Les datas : " ;
+        }
+	
+    }
+    function modifierEvenementNbdislike1($evenement,$id){
+		$sql="UPDATE evenement SET  nb_dislike=:nb_dislike WHERE id_evenement=$id";
+		
+		$db = config::getConnexion();
+try{		
+        $req=$db->prepare($sql);
+    $nb_dislike=$evenement->getnb_dislike()-1;
+    
+		
+        $req->bindValue(':nb_dislike',$nb_dislike,PDO::PARAM_INT);
+
+
+            $s=$req->execute();
+			
+        }
+        catch (Exception $e){
+            echo " Erreur ! ".$e->getMessage();
+            echo " Les datas : " ;
+        }
+	
+    }
+    
     function modifierEvenementPlace($evenement,$id,$placesdemande){
 		$sql="UPDATE evenement SET  nb_places=:nb_places, nb_participants=:nb_participants WHERE id_evenement=$id";
 		
@@ -131,8 +239,8 @@ try{
     
     
 		
-        $req->bindValue(":nb_participants",$nb_participants );
-        $req->bindValue(":nb_places",$nb_places );
+        $req->bindValue(":nb_participants",$nb_participants,PDO::PARAM_INT );
+        $req->bindValue(":nb_places",$nb_places,PDO::PARAM_INT );
 
 
             $s=$req->execute();
@@ -143,6 +251,18 @@ try{
             echo " Les datas : " ;
         }
 	
+    }
+    function verifierNbplaces($id_evenement){
+		$sql="SELECT nb_places from evenement where id_evenement=$id_evenement ";
+		$db = config::getConnexion();
+		try{
+        $liste=$db->query($sql);
+       
+        return $liste;
+		}
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }
     }
     function modifierEvenementPlace2($evenement,$id,$placesdemande){
 		$sql="UPDATE evenement SET  nb_places=:nb_places, nb_participants=:nb_participants WHERE id_evenement=$id";
@@ -157,8 +277,8 @@ try{
     
     
 		
-        $req->bindValue(":nb_participants",$nb_participants );
-        $req->bindValue(":nb_places",$nb_places );
+        $req->bindValue(":nb_participants",$nb_participants ,PDO::PARAM_INT);
+        $req->bindValue(":nb_places",$nb_places ,PDO::PARAM_INT);
 
 
             $s=$req->execute();

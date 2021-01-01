@@ -7,14 +7,20 @@ class evenement{
     private $image;
 	private $description;
 	private $nb_places;
-	function __construct($id_evenement,$name,$date,$nb_places,$image,$description,$nb_participants){
+	private $nb_like;
+	private $nb_dislike;
+
+	function __construct($id_evenement,$name,$date,$nb_places,$image,$description,$nb_participants,$nb_like,$nb_dislike){
 		$this->id_evenement=$id_evenement;
 		$this->name=$name;
 		$this->date=$date;
 		$this->nb_places=$nb_places;
         $this->image=$image;
 		$this->description=$description;
-		$this->$nb_participants=$nb_participants;
+		$this->nb_participants=$nb_participants;
+		$this->nb_like=$nb_like;
+		$this->nb_dislike=$nb_dislike;
+
 
 	}
 	
@@ -40,6 +46,12 @@ class evenement{
 	function getdescription(){
 		return $this->description;
 	}
+	function getnb_like(){
+		return $this->nb_like;
+	}
+	function getnb_dislike(){
+		return $this->nb_dislike;
+	}
 	function setid_evenement($id_evenement){
 		$this->id_evenement=$id_evenement;
 	}
@@ -61,6 +73,12 @@ class evenement{
 	
 	function setnb_places($nb_places){
 		$this->nb_places=$nb_places;
+	}
+	function setnb_like($nb_like){
+		$this->nb_like=$nb_like;
+	}
+	function setnb_dislike($nb_dislike){
+		$this->nb_dislike=$nb_dislike;
 	}
 }
 

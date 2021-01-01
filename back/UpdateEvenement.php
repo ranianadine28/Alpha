@@ -25,13 +25,17 @@ if (isset($_POST['ajouter'])) {
 
      
       
-$evenement1=new evenement($_POST['id_evenement'],$_POST['nom'],$_POST['date'],$_POST['nb_places'],$filename,$_POST['des'],0);
+$evenement1=new evenement($_POST['id_evenement'],$_POST['nom'],$_POST['date'],$_POST['nb_places'],$filename,$_POST['des'],0,0,0);
 //Partie2
 
 var_dump($evenement1);
 //Partie3
 $evenement1C=new evenementC();
+session_start();
+
+if( htmlspecialchars($_SESSION["role"])=="Admin"){
 $evenement1C->modifierEvenement($evenement1,$_POST['id_evenement']);
+}
 header('Location: index.php');
     
 

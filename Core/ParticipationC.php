@@ -23,7 +23,7 @@ class ParticipationC {
         }
     }
     function verifierParticipation($id_evenement,$id_user){
-		$sql="SELECT * from participation where id_evenement=$id_evenement and id_user=1";
+		$sql="SELECT * from participation where id_evenement=$id_evenement and id_user=$id_user";
 		$db = config::getConnexion();
 		try{
         $liste=$db->query($sql);
@@ -38,7 +38,7 @@ class ParticipationC {
         }
     }
     function RecupererPlacesReservees($id_evenement,$id_user){
-		$sql="SELECT * from participation where id_evenement=$id_evenement and id_user=1";
+		$sql="SELECT * from participation where id_evenement=$id_evenement and id_user=$id_user";
 		$db = config::getConnexion();
 		try{
         $liste=$db->query($sql);
@@ -52,11 +52,10 @@ class ParticipationC {
     }
     
     function annulerParticipation($id_evenement,$id_user){
-		$sql="DELETE FROM participation where id_evenement= :id_evenement and id_user=1";
+		$sql="DELETE FROM participation where id_evenement= :id_evenement and id_user=$id_user";
 		$db = config::getConnexion();
         $req=$db->prepare($sql);
         $req->bindValue(':id_evenement',$id_evenement);
-        //$req->bindValue(':id_user',$id_user);
 
 		try{
             $req->execute();

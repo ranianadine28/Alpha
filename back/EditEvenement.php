@@ -1,7 +1,6 @@
 
 
-<?php include 'Layouts/head.php';?>
-<?php include 'Layouts/menu.php';?>
+
 
 <?php
 
@@ -22,13 +21,18 @@ if (isset($_GET["id_evenement"])) {
         $description=$row['description'];
         $nb_participants=$row['nb_participants'];
         $nb_places=$row['nb_places'];
-		$evenement=new Evenement($id_evenement,$name,$date,$nb_places,$image,$description,$nb_places);
+		$evenement=new Evenement($id_evenement,$name,$date,$nb_places,$image,$description,$nb_places,0,0);
 
     }
 }
 
 ?>
+<?php
+session_start();
 
+if( htmlspecialchars($_SESSION["role"])=="Admin"){?>
+<?php include 'Layouts/head.php';?>
+<?php include 'Layouts/menu.php';?>
 <div class="container">
 
 	<div class="starter-template">
@@ -82,3 +86,9 @@ if (isset($_GET["id_evenement"])) {
 </div><!-- /.container -->
 
 <?php include 'Layouts/footer.php';?>
+<?php } 
+     else {
+        header("Location: ../front/afficherEvenement.php");
+
+    }
+     ?>

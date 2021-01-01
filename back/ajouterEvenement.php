@@ -1,9 +1,14 @@
 
-<?php require_once('Layouts/head.php') ;?>
-<?php require_once( 'Layouts/menu.php');?>
+
 <?PHP
 include "../Entities/Evenement.php";
 include "../Core/EvenementC.php";
+
+
+
+
+
+
 $EvenementC=new EvenementC();
 $filename="";
 $msg = ""; 
@@ -30,7 +35,7 @@ if (isset($_POST['ajouter'])) {
     {
         
       
-$evenement1=new evenement(1,$_POST['nom'],$_POST['date'],$_POST['nb_places'],$filename,$_POST['description'],0);
+$evenement1=new evenement(1,$_POST['nom'],$_POST['date'],$_POST['nb_places'],$filename,$_POST['description'],0,0,0);
 //Partie2
 
 var_dump($evenement1);
@@ -38,13 +43,20 @@ var_dump($evenement1);
 $evenement1C=new evenementC();
 $evenement1C->ajouterEvenement($evenement1);
 header('Location: index.php');
+
     
 }
 
 
-
-
 ?>
+<?php
+session_start();
+
+if( htmlspecialchars($_SESSION["role"])=="Admin"){?>
+
+
+<?php require_once('Layouts/head.php') ;?>
+<?php require_once( 'Layouts/menu.php');?>
 <HTML>
     <head>
  <link rel="stylesheet" href="../csss/style1.css" >
@@ -117,7 +129,7 @@ header('Location: index.php');
      <h1>Ajouter Evenement</h1>
     
      <td style="vertical-align: inherit;">name</td>
-     <td><input class="form-control" type="text" name="nom" id="nom" ></td>
+     <td><input class="form-control" type="text" name="nom" id="nom" "></td>
      </tr>
      <tr>
      <td>Date </td>
@@ -144,3 +156,11 @@ header('Location: index.php');
      </center>
      </body>
      </HTMl>
+     <?php } 
+     else {
+        header("Location: ../front/afficherEvenement.php");
+
+    }
+     ?>
+     
+     
