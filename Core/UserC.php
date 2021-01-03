@@ -110,7 +110,7 @@ function EnvoyerMail($email,$random){
         <body>
             <div align="left">
                 
-    http://localhost/gym-web/front/ChangePassword.php?random='. $random .'			
+    http://localhost:8085/gym-web/front/ChangePassword.php?random='. $random .'			
             </div>
         </body>
     </html>

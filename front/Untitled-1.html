@@ -3,7 +3,6 @@ include "../Core/ParticipationC.php";
 include "../Core/LikeC.php";
 include "../Core/DislikeC.php";
 include "../Core/UserC.php";
-include "../Core/CommentaireC.php";
 
 session_start ();
 if ($_SESSION["loggedin"]){
@@ -32,9 +31,7 @@ if (isset($_GET['id_evenement'])){
 
 
     }
-    $ComC=new CommentaireC();
 
-    $coms=$ComC->AfficherCom($_GET["id_evenement"]);
 
 }
 }else{
@@ -58,7 +55,6 @@ if (isset($_GET['id_evenement'])){
                 <div class="class-thumb">
 
                     <img src="../back/Images/<?PHP echo $image ?>" class="img-fluid" alt="Entraîneur">
-                    
 
                     <div class="team-info d-flex flex-column">
 
@@ -68,8 +64,24 @@ if (isset($_GET['id_evenement'])){
                                     <?PHP echo $date ?>
                                 </font>
                             </font>
-                        </h3><br>
-                        <ul class="social-icon mt-5">
+                        </h3>
+                        <span>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Places restantes :
+                                    <?PHP echo $nb_places ?>
+                                </font>
+                            </font>
+                        </span>
+                        <span>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Nombre de participants :
+                                    <?PHP echo $nb_participants ?>
+                                </font>
+                            </font>
+                        </span>
+
+
+                        <ul class="social-icon mt-3">
                             <?php
 
 
@@ -135,24 +147,7 @@ else {?>
                                     }
                                     ?>
                         </ul>
-                        
-                        <span>
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;">Places restantes :
-                                    <?PHP echo $nb_places ?>
-                                </font>
-                            </font>
-                        </span>
-                        <span>
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;">Nombre de participants :
-                                    <?PHP echo $nb_participants ?>
-                                </font>
-                            </font>
-                        </span>
-
-
-                                               <?php
+                        <?php
 
 
 $participationC=new ParticipationC();
@@ -182,7 +177,14 @@ else {?>
                                     }
                                     ?>
                     </div>
-                
+                    <div class="phppot-container">
+                        <div class="container">
+                            <div id="course_list">
+                                <?php require_once "getRatingData.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <script src="./assets/rating.js"></script>
 
                 </div>
 
@@ -202,15 +204,8 @@ else {?>
                             <?PHP echo $description ?>
                         </font>
                 </p>
-                <script src="./assets/rating.js"></script>
 
-                <div class="phppot-container">
-                        <div class="container">
-                            <div id="course_list">
-                                <?php require_once "getRatingData.php"; ?>
-                            </div>
-                        </div>
-                    </div>
+
 
             </div>
 
@@ -219,68 +214,6 @@ else {?>
 
 
         </div>
-        <div class="comment-form">
-    <form method='post' action="ajouterCommentaire.php">
-        <h3>Add a comment</h3>
-        <input type="hidden" name="id_evenement" value="<?php echo $id_evenement ?>">
-
-        <div class=" form-group row">
-            <div >
-                <label class="col-auto col-form-label col-form-label-lg" for="Name">Your Comment:</label>
-                <div class="col">
-                    <input type="text" class="form-control form-control-lg" name="description"  placeholder="Comment">
-                                  <input type="submit" value="envoyer" style="background-color:blue" class="btn custom-btn  mt-4 aos-init aos-animate"/>
-
-                 </div>
-             </div>
-
-
-        </div>
-    </form>
-</div>
-<div class="comment-box">
-    <h3>Comments</h3>
-    <ul class="comment-list">
-    <?php foreach ($coms as $com) {
-        $id_com=$com["id_com"];?>
-
-        <li>
-            <div style="display:flex;border:1px solid #f1f1f1;padding:20px;margin-bottom:30px">
-                <div style="flex:0 1 75px;padding:0 20px 0 0">
-                    <img src="images/author.jpg" alt="Image">
-                </div>
-                <div style="display:block;width:100%">
-                <h4><?php  $userC=new UserC();
-    $result=$userC->recupererUser($com['id_user']);
-	foreach($result as $row1){
-		$nom=$row1['username'];
-		
-
-
-    }
-    
-    echo $nom ;
-   ?></h4>  
-   
-                    <p class="date"><i class="fa fa-clock-o"></i> <?php echo $com['created_at'] ?></p>
-                    <p>Description: <?php echo $com['description'] ?></p>
-                   
-                </div>
-                <ul class="social-icon mt-3">
-                                            <li><a href="SupprimerCommentaire.php?id_evenement=<?php echo $id_evenement ?>&id_com=<?php echo $id_com ?>" class="fa fa-trash" style="color: red;"></a></li>
-                                            <li><a href="editCommentaire.php?id_evenement=<?php echo $id_evenement ?>&id_com=<?php echo $id_com ?>" class="fa fa-edit" style="color: blue;"></a></li>
-                                        </ul>  
-            </div>
-           
-        </li>
-
-        <br>
-
-        <?php } ?>
-
-    </ul>
-</div>
-
     </div>
 </section>
 
@@ -377,7 +310,7 @@ foreach($dislike as $row3){
 
 ?>
 
-                <img class="images" src="images/profile1.jpg">
+                <img src="images/profile1.jpg">
                 <?PHP
 $userC=new UserC();
 $u1=$userC->recupererUser($row3['id_user']);
@@ -388,8 +321,7 @@ $u1=$userC->recupererUser($row3['id_user']);
 
 
     } ?></img>
-<br>
-<br>
+
                 <?php }?>
             </div>
 
@@ -432,7 +364,7 @@ foreach($like as $row1){
 ?>
 
 
-                <img class="images" src="images/profile1.jpg">
+                <img src="images/profile1.jpg">
                 <?PHP
 $user1C=new UserC();
 
@@ -444,8 +376,7 @@ $u=$user1C->recupererUser($row1['id_user']);
 
 
     } ?></img>
-<br>
-<br>
+
                 <?php }?>
             </div>
 

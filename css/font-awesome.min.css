@@ -1,3 +1,57 @@
+ul {
+	margin: 0px;
+	padding: 10px 0px 0px 0px;
+	display: inline-flex;
+}
+
+li.star {
+	list-style: none;
+	display: inline-block;
+	margin-right: 5px;
+	cursor: pointer;
+	color: #9E9E9E;
+}
+
+.row-title {
+	font-size: 20px;
+	color: #232323;
+}
+
+.review-note {
+	font-size: 12px;
+	color: #999;
+	font-style: italic;
+}
+
+.row-item {
+	margin-bottom: 100px;
+	border-bottom: #F0F0F0 1px solid;
+}
+
+p.text-address {
+	font-size: 12px;
+}
+
+.images {
+	height: 60px;
+	width: 60px;
+}
+
+.course-detail {
+	font-size: 1em;
+	margin-right: 20px;
+}
+
+.loader-icon {
+	display: none;
+}
+
+.response {
+    display: inline-block;
+    vertical-align: super;
+    margin-left: 10px;
+    color: #FF0000;
+}
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
